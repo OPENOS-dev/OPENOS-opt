@@ -1,0 +1,33 @@
+{
+  "backends": [
+    {
+      "id": "yum",
+      "name": "YUM (RHEL/CentOS 7)",
+      "description": "旧版 RHEL 系包管理器",
+      "repo": "https://github.com/OPENOS-PROJECT/opt-backends-yum.git",
+      "build_script": "build.sh",
+      "patch": "openos.patch",
+      "dependencies": ["gcc", "make", "python3"],
+      "default": false
+    },
+    {
+      "id": "dnf",
+      "name": "DNF (Fedora/RHEL 8+)",
+      "description": "新一代 RHEL 系包管理器",
+      "repo": "https://github.com/OPENOS-PROJECT/opt-backends-dnf.git",
+      "build_script": "build.sh",
+      "dependencies": ["gcc", "make", "python3", "libdnf"],
+      "default": false
+    },
+    {
+      "id": "zypper",
+      "name": "Zypper (openSUSE)",
+      "description": "openSUSE 系包管理器",
+      "repo": "https://github.com/OPENOS-PROJECT/opt-backends-zypper.git",
+      "build_script": "build.sh",
+      "patch": "openos.patch",
+      "dependencies": ["gcc", "make"],
+      "default": false
+    }
+  ]
+}

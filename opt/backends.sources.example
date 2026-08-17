@@ -1,0 +1,6 @@
+# opt 后端源列表 (/etc/opt/backends.sources)
+# 每行一个 URL (JSON 索引) 或本地目录路径; # 开头的行被忽略。
+# 默认官方源:
+https://github.com/OPENOS-PROJECT/opt-index/raw/main/index.json
+# 本地源示例:
+# /srv/opt-backends

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# opt 后端构建脚本模板
+# 后端仓库根目录下的 build.sh 负责: 配置 -> 编译 -> 安装
+# 由 opt install_backend 调用 (当前目录=仓库根)。
+
+set -euo pipefail
+PREFIX="${PREFIX:-/usr/local}"
+
+echo "[build.sh] 配置 $BACKEND_ID"
+if [ -f configure ]; then
+    ./configure --prefix="$PREFIX"
+elif [ -f meson.build ]; then
+    meson setup build --prefix="$PREFIX" && cd build
+elif [ -f CMakeLists.txt ]; then
+    cmake -B build -DCMAKE_INSTALL_PREFIX="$PREFIX" && cd build
+fi
+
+echo "[build.sh] 编译"
+make -j"$(nproc)"
+
+echo "[build.sh] 安装"
+make install
+echo "[build.sh] $BACKEND_ID 构建完成"

@@ -1,5 +1,5 @@
 # opt — OPENOS 统一包管理前端 (CLI)
-project('opt', 'bash')
+project('opt')
 
 install_data('opt.sh',
   install_dir: get_option('bindir'),

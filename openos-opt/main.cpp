@@ -1,4 +1,4 @@
-/* openos-opt — 独立 App (自包含, 可单独构建) */
+/* openos-opt — Pacman GUI 前端 (独立 App, 自包含) */
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
@@ -6,18 +6,26 @@
 #include <QUrl>
 #include "iconloader.h"
 #include "iconprovider.h"
+#include "pacmanbridge.h"
+
 int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
     app.setApplicationName("openos-opt");
     app.setQuitOnLastWindowClosed(true);
-    QQmlApplicationEngine engine;
 
+    QQmlApplicationEngine engine;
     engine.addImageProvider(QStringLiteral("icons"), new IconProvider);
+
     IconLoader iconLoader(&app);
     engine.rootContext()->setContextProperty("_iconLoader", &iconLoader);
+
+    PacmanBridge pacman;
+    engine.rootContext()->setContextProperty("PacmanBridge", &pacman);
+
     QQmlComponent token(&engine, QUrl(QStringLiteral("qrc:/qml/OpenUI.qml")));
     QObject* openUI = token.create();
     engine.rootContext()->setContextProperty("OpenUI", openUI);
+
     engine.load(QUrl(QStringLiteral("qrc:/qml/Opt.qml")));
     return engine.rootObjects().isEmpty() ? 1 : app.exec();
 }

@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
+# Copyright (C) 2026 OPENOS-dev
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the OPENOS-PROJECT-LICENSE (OPL) v1.2.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# OPL for more details.
+#
+# You should have received a copy of the OPL along with this program.
+# If not, see <https://github.com/OPENOS-dev/OPL>.
+#
 # opt — OPENOS 统一包管理前端 (v0.1, DEV2026.1)
 #
 # 职责:
@@ -36,16 +48,6 @@ jget() { # jget <json> <key>  输出 key 的值
 	elif have python3; then python3 -c "import json,sys;print(json.loads('''$json''')$key)";
 	else return 1; fi
 }
-
-# ---------- vmapp 集成 ----------
-# 进入/退出 opt 隔离视图 (链接 libvmapp)
-vmapp_enter() {
-	if [ -x /usr/local/bin/vmappctl ] || [ -x /usr/lib/libvmapp.so ]; then
-		log "进入 /vmapp/opt 隔离视图"
-		# 若可用, 调 libvmapp (C); 否则仅 chroot 提示
-	fi
-}
-vmapp_exit() { log "退出 opt 隔离视图 (进程退出自动恢复)"; }
 
 # ---------- 内置 apt 后端 (本地源码构建, 不下载) ----------
 OPT_APT_SRC="${OPT_APT_SRC:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../apt" && pwd)}"

@@ -26,10 +26,14 @@
  */
 #include <QQuickAsyncImageProvider>
 #include <QImage>
+#include <QUrlQuery>
 
 class IconProvider : public QQuickAsyncImageProvider {
 public:
     QImage requestImage(const QString& id, QSize* size,
+                        const QSize& requestedSize) override;
+    /* 自定义扩展: 带 color 查询参数 */
+    QImage requestImage(const QString& id, QSize* size,
                         const QSize& requestedSize,
-                        const QUrlQuery& query) override;
+                        const QUrlQuery& query);
 };

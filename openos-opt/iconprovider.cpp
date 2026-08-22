@@ -19,13 +19,19 @@
 #include <QSvgRenderer>
 #include <QUrlQuery>
 
-/* id 是 QUrl.path() 已 decode, 形如:
- *   /usr/share/icons/OpenOS/scalable/panel/audio-volume-high.svg
- * QUrl 可能前导 '/' 丢失 (取决于 host 解析), 兜底补 '/' */
+/* id 是 "image://icons/" 之后的完整字符串, 形如:
+ *   /usr/share/icons/OpenOS/scalable/panel/audio-volume-high.svg?size=24&color=%2300BCD4
+ * 解析出路径和查询参数 */
 QImage IconProvider::requestImage(const QString& id, QSize* size,
-                                  const QSize& requestedSize,
-                                  const QUrlQuery& query) {
+                                  const QSize& requestedSize) {
+    /* 分割路径和查询参数 */
     QString p = id;
+    QUrlQuery query;
+    int qpos = id.indexOf(QLatin1Char('?'));
+    if (qpos >= 0) {
+        p = id.left(qpos);
+        query = QUrlQuery(id.mid(qpos + 1));
+    }
     if (!p.startsWith(QLatin1Char('/'))) p.prepend(QLatin1Char('/'));
 
     QFile f(p);
